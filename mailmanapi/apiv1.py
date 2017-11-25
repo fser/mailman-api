@@ -132,6 +132,24 @@ def members(listname):
     return jsonify(mlist.getMembers())
 
 
+def helds(listname):
+    """Lists helds messages for the `listname` list.
+
+    **Method**: GET
+
+    **URI**: /<listname>/helds
+
+    Returns an array of helds messages."""
+
+    mlist = get_mailinglist(listname, lock=True)
+    msgids = mlist.GetHeldMessageIds()
+    msg = []
+    for msgid in msgids:
+      record = mlist.GetRecord(msgid)
+      msg.append({'from': record[1], 'subject': record[2], 'reason': record[3]})
+    mlist.Unlock()
+    return jsonify(msg)
+
 def sendmail(listname):
     """Posts an email to the mailing list.
 

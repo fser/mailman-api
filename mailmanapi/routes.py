@@ -17,6 +17,8 @@ def create_routes(app):
               callback=apiv1.members)
     app.route('/<listname>/sendmail', method='POST',
               callback=apiv1.sendmail)
+    app.route('/<listname>/helds', method='GET',
+              callback=apiv1.helds)
 
     # v2
     app.route('/v2/lists/', method='GET',
@@ -31,7 +33,8 @@ def create_routes(app):
               callback=apiv2.members)
     app.route('/v2/sendmail/<listname>', method='POST',
               callback=apiv2.sendmail)
-
+    app.route('/v2/<listname>/helds', method='GET',
+              callback=apiv2.helds)
 
 def get_application(allowed_ips):
     bottle_app = default_app()
